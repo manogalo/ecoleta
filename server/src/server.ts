@@ -7,7 +7,8 @@ const app = express();
 // PUT: Atualizar uma informação existente no back-end
 // DELETE: Remover uma informação do back-end
 
-// Request.params = Parâmetros enviados na própria rota que identificam um recurso
+// Request params = Parâmetros enviados na própria rota que identificam um recurso
+// Query params = Parâmetros enviados na própria rota, geralmente opcionais, para filtros, paginação, etc (separados por "?")
 
 const users = [
     'Diego',
@@ -17,9 +18,11 @@ const users = [
 ];
 
 app.get('/users',(request, response) => {
-    console.log('listagem de usuários');
+    const search = String(request.query.search);
 
-    response.send(users);
+    const filteredUsers = search ? users.filter(user => user.includes(search)) : users;
+
+    response.send(filteredUsers);
 });
 
 app.get('/user/:id', (request, response) => {
