@@ -1,9 +1,13 @@
 import React from 'react';
 
-function Header() {
+interface IHeader {
+    title: string;
+}
+
+const Header: React.FC<IHeader> = (props) => {
     return (
         <header>
-            <h1>Ecoleta</h1>
+            <h1>{ props.title }</h1>
         </header>
     );
 }
