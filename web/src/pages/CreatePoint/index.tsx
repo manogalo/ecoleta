@@ -6,6 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import { Map, TileLayer, Marker } from 'react-leaflet'
 import api from '../../services/api'
 import axios from 'axios'
+import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 
 interface Item {
     id: number,
@@ -17,6 +18,10 @@ interface IUF {
     sigla: string
 }
 
+interface ICity {
+    nome: string
+}
+
 const CreatePoint = () => {
 
 // sempre que se cria um estado à um array ou objeto, precisamos manualmente
@@ -24,8 +29,9 @@ const CreatePoint = () => {
 
     const [items, setItems] = useState<Item[]>([]);
     const [uf, setUf] = useState<string[]>([]);
-
+    const [cities, setCity] = useState<string[]>([]);
     const [selectedUf, setSelectedUf] = useState('0');
+    const [selectedCity, setSelectedCity] = useState('0');
 
     useEffect(() => {
         api.get('items').then(response => {
@@ -42,13 +48,24 @@ const CreatePoint = () => {
     }, [])
 
     useEffect(() => {
-    // Carregar as cidades sempre que a UF mudar
+        if (selectedUf === '0')
+            return;
         
-    }, []);
+        axios.get<ICity[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios?orderBy=nome`)
+        .then(response => {
+            const cityNames = response.data.map(city => city.nome)
+            setCity(cityNames);
+        })
+    }, [selectedUf]);
 
     function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
         const uf = event.target.value;
         setSelectedUf(uf);
+    };
+
+    function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
+        const city = event.target.value;
+        setSelectedCity(city);
     };
 
     return (
@@ -115,8 +132,11 @@ const CreatePoint = () => {
 
                         <div className="field">
                             <label htmlFor="city">Cidade</label>
-                            <select name="city" id="city">
+                            <select name="city" id="city" value={selectedCity} onChange={handleSelectCity}>
                                 <option value="0">Selecione uma cidade</option>
+                                {cities.map(item => (
+                                    <option key={item} value={item}>{item}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
