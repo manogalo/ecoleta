@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import './styles.css'
 import logo from '../../assets/logo.svg'
 import { Link } from 'react-router-dom'
@@ -25,6 +25,8 @@ const CreatePoint = () => {
     const [items, setItems] = useState<Item[]>([]);
     const [uf, setUf] = useState<string[]>([]);
 
+    const [selectedUf, setSelectedUf] = useState('0');
+
     useEffect(() => {
         api.get('items').then(response => {
             setItems(response.data);
@@ -37,7 +39,17 @@ const CreatePoint = () => {
             const ufInitials = response.data.map(uf => uf.sigla);
             setUf(ufInitials);
         });
-    })
+    }, [])
+
+    useEffect(() => {
+    // Carregar as cidades sempre que a UF mudar
+        
+    }, []);
+
+    function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
+        const uf = event.target.value;
+        setSelectedUf(uf);
+    };
 
     return (
         <div id="page-create-point">
@@ -93,7 +105,7 @@ const CreatePoint = () => {
                     <div className="field-group">
                         <div className="field">
                             <label htmlFor="UF">Estado (UF)</label>
-                            <select name="uf" id="uf">
+                            <select name="uf" id="uf" value={selectedUf} onChange={handleSelectUf}>
                                 <option >Selecione uma UF</option>
                                 {uf.map(item => (
                                     <option key={item} value={item}>{item}</option>
