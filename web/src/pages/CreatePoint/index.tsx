@@ -7,7 +7,8 @@ import { Map, TileLayer, Marker } from 'react-leaflet'
 import api from '../../services/api'
 import axios from 'axios'
 import { LeafletMouseEvent } from 'leaflet';
-
+import toast from '../../routes'
+import Routes from '../../routes';
 
 interface Item {
     id: number,
@@ -42,7 +43,6 @@ const CreatePoint = () => {
     });
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const history = useHistory();
-    
 
     useEffect(() => {
         api.get('items').then(response => {
@@ -131,7 +131,7 @@ const CreatePoint = () => {
 
         await api.post('points',data)
         .then(response => alert('Ponto de coleta cadastrado com sucesso.'));
-
+        
         history.push('/');
     }
 
