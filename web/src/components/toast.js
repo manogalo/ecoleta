@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import './toast.css'
-import {FiX} from 'react-icons/fi'
+import './toast.css';
+import {FiX} from 'react-icons/fi';
+import PropTypes from 'prop-types';
 
 const Toast = (props) => {
+
+    Toast.defaultProps = {
+        position: 'bottom-right'
+    }
+
+    Toast.propTypes = {
+        toastList: PropTypes.array.isRequired,
+        position: PropTypes.string
+    }
 
     const { toastList, position } = props;
     const [list, setList] = useState(toastList);
