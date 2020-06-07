@@ -2,13 +2,11 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import './styles.css'
 import logo from '../../assets/logo.svg'
 import { Link, useHistory } from 'react-router-dom'
-import { FiArrowLeft, FiCheck } from 'react-icons/fi'
+import { FiArrowLeft } from 'react-icons/fi'
 import { Map, TileLayer, Marker } from 'react-leaflet'
 import api from '../../services/api'
 import axios from 'axios'
 import { LeafletMouseEvent } from 'leaflet';
-import toast from '../../routes'
-import Routes from '../../routes';
 
 interface Item {
     id: number,
