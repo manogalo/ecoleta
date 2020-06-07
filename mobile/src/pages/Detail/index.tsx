@@ -14,6 +14,7 @@ interface IParams {
 interface IData {
   point: {
     image: string,
+    image_url: string,
     name: string,
     email: string,
     whatsapp: string,
@@ -72,7 +73,7 @@ const Detail = () => {
                 />
             </TouchableOpacity>
 
-            <Image style={styles.pointImage} source={{uri: data.point.image }}></Image>
+            <Image style={styles.pointImage} source={{uri: data.point.image_url }}></Image>
         
             <Text style={styles.pointName}>{data.point.name}</Text>
             <Text style={styles.pointItems}>{data.items.map(item => item.title).join(', ')}</Text>
