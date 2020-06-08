@@ -103,6 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-temp/*
-!temp/.gitkeep
+.temp/*
+!.temp/.gitkeep
 *.sqlite
