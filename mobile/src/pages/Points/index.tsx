@@ -17,10 +17,10 @@ interface Item {
 interface IPoints {
   id: number,
   image: string,
-  image_url: string,
   name: string,
   latitude: number,
   longitude: number,
+  image_url: string
 }
 
 interface Params {
@@ -71,7 +71,9 @@ const Points = () => {
           uf: routeParams.uf,
           items: selectedItems
         }
-      }).then(response => setPoints(response.data))
+      }).then(response => {
+        setPoints(response.data)
+      })
     }, [selectedItems])
 
     function handleNavigateBack() {
@@ -118,18 +120,18 @@ const Points = () => {
                           longitudeDelta: 0.014
                       }}
                     >
-                      {points.map(item => (
+                      {points.map(point => (
                         <Marker
-                          key={String(item.id)}
+                          key={String(point.id)}
                             style={styles.mapMarker}
-                            onPress={() => handleNavigateToDetail(item.id)}
+                            onPress={() => handleNavigateToDetail(point.id)}
                             coordinate={{
-                            latitude: item.latitude,
-                            longitude: item.longitude
+                              latitude: point.latitude || 0,
+                              longitude: point.longitude || 0
                         }} >
                             <View style={styles.mapMarkerContainer}>
-                                <Image style={styles.mapMarkerImage} source={{ uri: item.image_url }} />
-                                <Text style={styles.mapMarkerTitle}>{item.name}</Text>
+                                <Image style={styles.mapMarkerImage} source={{ uri: point.image_url }} />
+                                <Text style={styles.mapMarkerTitle}>{point.name}</Text>
                             </View>
                         </Marker>
                       ))}
